@@ -1,3 +1,3 @@
-# NeSI training environment ML102 Jupyter app
+# NeSI training environment Python Jupyter app
 
-JupyterLab app for running the ML102 workshop on the NeSI training environment.
+JupyterLab app for running Introduction to Python workshops on the NeSI training environment.
