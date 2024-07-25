@@ -23,6 +23,17 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         zip \
     && rm -rf /var/lib/apt/lists/*
 
-# install dependencies
-RUN pip3 --no-cache-dir install -r requirements.txt \
+# download the required date files into the container image
+RUN wget -nv https://ndownloader.figshare.com/files/2292172 \
+        -O /var/lib/surveys.csv \
+    && chown -R root:root /var/lib/surveys.csv \
+    && chmod -R o+rX /var/lib/surveys.csv \
+
+# copy the repo source (e.g. notebooks) to the container image and install dependencies
+#ARG PYTHON_HASH="39f654a10ddcfaa06420c12173f6053ea9963d26"
+RUN git clone https://github.com/nesi/intro-python.git /opt/intro-python \
+    && cd /opt/intro-python \
+#    && git checkout $PYTHON_HASH \
+    && pip3 --no-cache-dir install -r requirements.txt \
     && pip3 --no-cache-dir install jupyterlab \
+    && rm -rf /opt/intro-python/.git
