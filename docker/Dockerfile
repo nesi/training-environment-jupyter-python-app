@@ -24,10 +24,10 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # download the required date files into the container image
-RUN wget -nv https://ndownloader.figshare.com/files/2292172 \
-        -O /var/lib/surveys.csv \
-    && chown -R root:root /var/lib/surveys.csv \
-    && chmod -R o+rX /var/lib/surveys.csv \
+#RUN wget -nv https://ndownloader.figshare.com/files/2292172 \
+#        -O /var/lib/surveys.csv \
+#    && chown -R root:root /var/lib/surveys.csv \
+#    && chmod -R o+rX /var/lib/surveys.csv \
 
 # copy the repo source (e.g. notebooks) to the container image and install dependencies
 #ARG PYTHON_HASH="39f654a10ddcfaa06420c12173f6053ea9963d26"
