@@ -1,0 +1,14 @@
+tensorflow
+scikit-learn
+pandas
+matplotlib
+numpy
+scipy
+matplotlib
+plotnine
+pillow
+ipython
+tensorflow-datasets
+ipywidgets
+git+https://github.com/tensorflow/examples.git
+pydot
