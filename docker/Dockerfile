@@ -30,10 +30,10 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
 #    && chmod -R o+rX /var/lib/surveys.csv \
 
 # copy the repo source (e.g. notebooks) to the container image and install dependencies
-#ARG PYTHON_HASH="43737f575a3c87da33afb78631fa84eec3e6b1fb"
+ARG PYTHON_HASH="3d1dcc832682950b37b66a796877b1960c833842"
 RUN git clone https://github.com/nesi/intro-python.git /opt/intro-python \
     && cd /opt/intro-python \
-#   && git checkout $PYTHON_HASH \
+    && git checkout $PYTHON_HASH \
     && pip3 --no-cache-dir install -r requirements.txt \
     && pip3 --no-cache-dir install jupyterlab \
     && rm -rf /opt/intro-python/.git
