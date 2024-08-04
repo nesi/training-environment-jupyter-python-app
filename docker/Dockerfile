@@ -30,7 +30,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
 #    && chmod -R o+rX /var/lib/surveys.csv \
 
 # copy the repo source (e.g. notebooks) to the container image and install dependencies
-ARG PYTHON_HASH="91de379c9d49c8400d30e965ccba3011d72d1677"
+ARG PYTHON_HASH="fde72796f9369202dee57afa53e680f6f435ef1d"
 RUN git clone https://github.com/nesi/intro-python.git /opt/intro-python \
     && cd /opt/intro-python \
     && git checkout $PYTHON_HASH \
