@@ -50,10 +50,10 @@ RUN git clone https://github.com/nesi/training-environment-k8s-utils.git /opt/oo
 #    && chmod -R o+rX /var/lib/surveys.csv \
 
 # copy the repo source (e.g. notebooks) to the container image and install dependencies
-#ARG PYTHON_HASH="fde72796f9369202dee57afa53e680f6f435ef1d"
+ARG PYTHON_HASH="487461dbe11b7e34f1d06ec1394b191ab6ecb01e"
 RUN git clone https://github.com/nesi/intro-python.git /opt/intro-python \
     && cd /opt/intro-python \
-#    && git checkout $PYTHON_HASH \
+    && git checkout $PYTHON_HASH \
     && pip3 --no-cache-dir install -r requirements.txt \
     && pip3 --no-cache-dir install jupyterlab \
     && rm -rf /opt/intro-python/.git
