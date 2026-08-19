@@ -43,17 +43,32 @@ RUN git clone https://github.com/nesi/training-environment-k8s-utils.git /opt/oo
     && mv /opt/ood-k8s-utils/files/* /bin/ \
     && rm -rf /opt/ood-k8s-utils
 
-# download the required date files into the container image
-#RUN wget -nv https://ndownloader.figshare.com/files/2292172 \
-#        -O /var/lib/surveys.csv \
-#    && chown -R root:root /var/lib/surveys.csv \
-#    && chmod -R o+rX /var/lib/surveys.csv \
-
 # copy the repo source (e.g. notebooks) to the container image and install dependencies
-ARG PYTHON_HASH="487461dbe11b7e34f1d06ec1394b191ab6ecb01e"
+ARG PYTHON_HASH="0fa4a0383caf0b32fb41b5e4a071edeab07d46c8"
 RUN git clone https://github.com/nesi/intro-python.git /opt/intro-python \
     && cd /opt/intro-python \
     && git checkout $PYTHON_HASH \
     && pip3 --no-cache-dir install -r requirements.txt \
     && pip3 --no-cache-dir install jupyterlab \
     && rm -rf /opt/intro-python/.git
+
+# fallback: fetch the gapminder data straight from the Carpentries lesson repos
+# in case the pinned intro-python commit predates data/gapminder*.csv. The clone
+# above ships these files, so -nc (no-clobber) makes this a no-op on a current
+# pin. Upstream repos are pinned by commit so the build stays reproducible.
+ARG SWC_PYTHON_GAPMINDER_HASH=5d886a81763f0c113f5560368311c44f41eea02d
+ARG SWC_R_GAPMINDER_HASH=61dff93a6e329945d7c2a7520054e633c0ab3b62
+RUN mkdir -p /opt/intro-python/data \
+    && cd /opt/intro-python/data \
+    && for f in gapminder_all.csv \
+                gapminder_gdp_africa.csv \
+                gapminder_gdp_americas.csv \
+                gapminder_gdp_asia.csv \
+                gapminder_gdp_europe.csv \
+                gapminder_gdp_oceania.csv ; do \
+           wget -nv -nc "https://raw.githubusercontent.com/swcarpentry/python-novice-gapminder/$SWC_PYTHON_GAPMINDER_HASH/episodes/data/$f" ; \
+       done \
+    && { [ -f gapminder.csv ] || wget -nv -O gapminder.csv \
+        "https://raw.githubusercontent.com/swcarpentry/r-novice-gapminder/$SWC_R_GAPMINDER_HASH/episodes/data/gapminder_data.csv" ; } \
+    && chown -R root:root /opt/intro-python/data \
+    && chmod -R o+rX /opt/intro-python/data
