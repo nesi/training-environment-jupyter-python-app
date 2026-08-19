@@ -44,16 +44,15 @@ RUN git clone https://github.com/nesi/training-environment-k8s-utils.git /opt/oo
     && rm -rf /opt/ood-k8s-utils
 
 # copy the repo source (e.g. notebooks) to the container image and install dependencies
-ARG PYTHON_HASH="0fa4a0383caf0b32fb41b5e4a071edeab07d46c8"
-RUN git clone https://github.com/nesi/intro-python.git /opt/intro-python \
+ARG PYTHON_VERSION="v0.5.0"
+RUN git clone --depth 1 --branch $PYTHON_VERSION https://github.com/nesi/intro-python.git /opt/intro-python \
     && cd /opt/intro-python \
-    && git checkout $PYTHON_HASH \
     && pip3 --no-cache-dir install -r requirements.txt \
     && pip3 --no-cache-dir install jupyterlab \
     && rm -rf /opt/intro-python/.git
 
 # fallback: fetch the gapminder data straight from the Carpentries lesson repos
-# in case the pinned intro-python commit predates data/gapminder*.csv. The clone
+# in case the pinned intro-python release predates data/gapminder*.csv. The clone
 # above ships these files, so -nc (no-clobber) makes this a no-op on a current
 # pin. Upstream repos are pinned by commit so the build stays reproducible.
 ARG SWC_PYTHON_GAPMINDER_HASH=5d886a81763f0c113f5560368311c44f41eea02d
